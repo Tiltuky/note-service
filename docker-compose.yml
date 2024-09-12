@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  note-service:
+    build: ./
+    command: ./wait-for-postgres.sh db ./note-service
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    environment:
+      - DB_PASSWORD=1qw23er4
+
+  db:
+    restart: always
+    image: postgres:latest
+    volumes:
+    - ./.database/postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=1qw23er4
+    ports:
+      - 5436:5432
